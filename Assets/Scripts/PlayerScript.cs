@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript
 {
-
+    GameObject player;
     private const float _moveForce = 10;
     private Rigidbody2D _rigidbody;
 
 
-
-    // Start is called before the first frame update
-    void Start()
+    public PlayerScript(GameObject playerInScene)
     {
-        ServicesLocator.player = this;
-        ServicesLocator.aiManager = new AIManager();
-        ServicesLocator.ball = GameObject.FindGameObjectWithTag("Ball");
-        _rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        player = playerInScene;
+        _rigidbody = player.GetComponent<Rigidbody2D>();
     }
 
     void Controller()
