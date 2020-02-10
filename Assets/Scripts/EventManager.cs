@@ -67,3 +67,18 @@ public abstract class AGPEvent
 
     public delegate void Handler(AGPEvent e);
 }
+
+private class GoalScored : AGPEvent
+{
+
+}
+
+private class TimeOut : AGPEvent
+{
+
+}
+
+private class GameStart : AGPEvent
+{
+
+}
