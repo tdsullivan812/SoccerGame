@@ -68,8 +68,14 @@ public abstract class AGPEvent
     public delegate void Handler(AGPEvent e);
 }
 
-private class GoalScored : AGPEvent
+public class GoalScored : AGPEvent
 {
+    bool didRedTeamScore;
+
+    public GoalScored(bool didBlueNetGetHit)
+    {
+        this.didRedTeamScore = didBlueNetGetHit;
+    }
 
 }
 

@@ -16,7 +16,7 @@ public class AIManager
     public AIManager()
     {
         SetStartPositions();
-        InstantiateOpponents();
+       
     }
 
     public void SetStartPositions()
@@ -34,6 +34,14 @@ public class AIManager
         {
             _listOfOpponents[i] = new AIOpponent(GameObject.Instantiate( _opponentPrefab, _opponentStartPositions[i], Quaternion.identity));
 
+        }
+    }
+
+    public void Update()
+    {
+        for(int i = 0; i < _listOfOpponents.Length; i++)
+        {
+            _listOfOpponents[i].Update();
         }
     }
 

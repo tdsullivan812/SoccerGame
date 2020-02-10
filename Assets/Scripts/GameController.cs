@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     private GameObject button;
 
     // Start is called before the first frame update
-    public void HideButton();
+    public void HideButton()
     {
         button.SetActive(false);
     }
@@ -25,7 +25,18 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        _gameStateMachine.Update();
+    }
+
+    public void GameSetup()
+    {
+        ServicesLocator.aiManager.InstantiateOpponents();
+
+    }
+
+    public void GameFinish()
+    {
+
     }
 
     private abstract class TitleScreen : FiniteStateMachine<GameController>.State
@@ -50,7 +61,8 @@ public class GameController : MonoBehaviour
     {
         public override void OnEnter()
         {
-            base.OnEnter();
+            ServicesLocator.gameController.GameSetup();
+            ServicesLocator.scoreController.gameStart = Time.time;
         }
 
         public override void OnExit()
@@ -60,7 +72,8 @@ public class GameController : MonoBehaviour
 
         public override void Update()
         {
-            base.Update();
+            ServicesLocator.scoreController.secondsRemaining = (int) Mathf.Floor(Time.time - ServicesLocator.scoreController.gameStart + ScoreController.gameDuration);
+            ServicesLocator.scoreController.UpdateDisplays;
         }
     }
 
@@ -68,7 +81,7 @@ public class GameController : MonoBehaviour
     {
         public override void OnEnter()
         {
-            base.OnEnter();
+            ServicesLocator.gameController.GameFinish();
         }
 
         public override void OnExit()

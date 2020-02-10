@@ -8,20 +8,8 @@ public static class ServicesLocator
     public static PlayerScript player;
     public static AIManager aiManager;
     public static GameObject ball;
-    //public static 
+    public static GameController gameController;
+    public static ScoreController scoreController;
+    public static EventManager eventManager;
 
-    // Start is called before the first frame update
-    /*
-    private static void Start()
-    {
-        aiManager.SetStartPositions();
-        aiManager.InstantiateOpponents();
-    }
-
-    // Update is called once per frame
-    static void Update()
-    {
-        
-    }
-    */
 }
