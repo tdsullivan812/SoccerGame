@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     {
         ServicesLocator.gameController = this;
         ServicesLocator.aiManager = new AIManager();
+        ServicesLocator.eventManager = new EventManager();
         ServicesLocator.ball = GameObject.FindGameObjectWithTag("Ball");
         ServicesLocator.player = new PlayerScript(GameObject.FindGameObjectWithTag("Player"));
         button = GameObject.Find("Button");
@@ -51,7 +52,7 @@ public class GameController : MonoBehaviour
         _gameStateMachine.TransitionTo<GameOver>();
     }
 
-    private abstract class TitleScreen : FiniteStateMachine<GameController>.State
+    private class TitleScreen : FiniteStateMachine<GameController>.State
     {
         public override void OnEnter()
         {
@@ -66,11 +67,10 @@ public class GameController : MonoBehaviour
 
         public override void Update()
         {
-            base.Update();
         }
     }
 
-    private abstract class SoccerGame : FiniteStateMachine<GameController>.State
+    private class SoccerGame : FiniteStateMachine<GameController>.State
     {
         public override void OnEnter()
         {
@@ -92,7 +92,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private abstract class GameOver : FiniteStateMachine<GameController>.State
+    private class GameOver : FiniteStateMachine<GameController>.State
     {
         public override void OnEnter()
         {

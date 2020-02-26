@@ -32,7 +32,7 @@ public class AIManager
     {
         for (int i = 0;  i < _numberOfOpponents; i++)
         {
-            _listOfOpponents[i] = new AIOpponent(GameObject.Instantiate( _opponentPrefab, _opponentStartPositions[i], Quaternion.identity));
+            _listOfOpponents[i] = new AIOpponent(GameObject.Instantiate( _opponentPrefab, _opponentStartPositions[i], Quaternion.identity), i % 3);
 
         }
     }

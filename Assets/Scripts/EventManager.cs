@@ -86,7 +86,11 @@ public class TimeOut : AGPEvent
 
 public class GameStart : AGPEvent
 {
-
+    public float startTime;
+    public GameStart()
+    {
+        startTime = creationTime;
+    }
 }
 
 public class GameFinished : AGPEvent

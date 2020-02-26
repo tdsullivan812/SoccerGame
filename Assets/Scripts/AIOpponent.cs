@@ -7,7 +7,7 @@ using System;
 public class AIOpponent
 {
     public GameObject opponentInScene;
-    private FiniteStateMachine<AIOpponent> _AIStateMachine;
+    //private FiniteStateMachine<AIOpponent> _AIStateMachine;
     private Tree<AIOpponent> _aiTree;
     private enum BehaviorType
     {
@@ -19,9 +19,9 @@ public class AIOpponent
     public AIOpponent(GameObject opponent, int behavior)
     {
         opponentInScene = opponent;
-        _AIStateMachine = new FiniteStateMachine<AIOpponent>(this);
-        _AIStateMachine.TransitionTo<Moving>();
-        if (behavior == (int) BehaviorType.Aggressive)
+        //_AIStateMachine = new FiniteStateMachine<AIOpponent>(this);
+        //_AIStateMachine.TransitionTo<Moving>();
+        if (behavior == (int)BehaviorType.Aggressive)
         {
             var aggressiveTree = new Tree<AIOpponent>
                 (
@@ -77,65 +77,66 @@ public class AIOpponent
 
     public void Update()
     {
-        _AIStateMachine.Update();
+        //_AIStateMachine.Update();
     }
 
-    
 
-    public abstract class Moving : FiniteStateMachine<AIOpponent>.State
-    {
-        AIOpponent opponent;
-
-        public override void Initialize()
+    /*
+        public abstract class Moving : FiniteStateMachine<AIOpponent>.State
         {
+            AIOpponent opponent;
+
+            public override void Initialize()
+            {
+            }
+
+            public override void OnEnter()
+            {
+
+            }
+
+            public override void OnExit()
+            {
+
+            }
+
+            public override void Update()
+            {
+                Context.MoveTowardBall();
+            }
+
+        }
+    }*/
+
+
+    public class InFrontOfBall : Node<AIOpponent>
+    {
+
+
+        public override bool Update(AIOpponent context)
+        {
+            return context.opponentInScene.transform.position.x >= ServicesLocator.ball.transform.position.x;
+        }
+    }
+
+    public class PushBall : Node<AIOpponent>
+    {
+        public override bool Update(AIOpponent context)
+        {
+            context.MoveTowardBall();
+            return true;
         }
 
-        public override void OnEnter()
+    }
+
+    public class Reposition : Node<AIOpponent>
+    {
+        public override bool Update(AIOpponent context)
         {
-
-        }
-
-        public override void OnExit()
-        {
-
-        }
-
-        public override void Update()
-        {
-            Context.MoveTowardBall();
+            context.GetOnRightSide();
+            return true;
         }
 
     }
-}
-
-
-public class InFrontOfBall : Node<AIOpponent>
-{
-
-
-    public override bool Update(AIOpponent context)
-    {
-        return context.opponentInScene.transform.position.x >= ServicesLocator.ball.transform.position.x;
-    }
-}
-
-public class PushBall : Node<AIOpponent>
-{
-    public override bool Update(AIOpponent context)
-    {
-        context.MoveTowardBall();
-        return true;
-    }
-
-}
-
-public class Reposition : Node<AIOpponent>
-{
-    public override bool Update(AIOpponent context)
-    {
-        context.GetOnRightSide();
-        return true;
-    }
-
 }
 
