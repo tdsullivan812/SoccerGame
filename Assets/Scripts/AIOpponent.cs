@@ -27,9 +27,17 @@ public class AIOpponent
                 (
                     new Selector<AIOpponent>
                     (
-                        opponentInScene)
-                )
+                        new Sequence<AIOpponent>
+                        (
+                            new InFrontOfBall(),
+                            new PushBall()
+                        ),
+                        new Reposition()
+                    )
+                );
+            _aiTree = aggressiveTree;
         }
+
     }
 
     public void MoveTowardBall()
@@ -38,6 +46,33 @@ public class AIOpponent
         directionTowardBall = ServicesLocator.ball.transform.position - opponentInScene.transform.position;
         directionTowardBall = directionTowardBall.normalized * AIManager.moveForce;
         opponentInScene.GetComponent<Rigidbody2D>().AddForce(directionTowardBall);
+    }
+
+    public void MoveAwayFromBall()
+    {
+        Vector3 directionTowardBall;
+        directionTowardBall = ServicesLocator.ball.transform.position - opponentInScene.transform.position;
+        directionTowardBall = directionTowardBall.normalized * AIManager.moveForce;
+        opponentInScene.GetComponent<Rigidbody2D>().AddForce(-directionTowardBall);
+    }
+
+    public void GetOnRightSide()
+    {
+        Vector3 targetPosition;
+        Vector3 directionTowardBall;
+        targetPosition = ServicesLocator.ball.transform.position + new Vector3(10f, 0, 0);
+        directionTowardBall = ServicesLocator.ball.transform.position - opponentInScene.transform.position;
+
+        if (directionTowardBall.magnitude <= 5)
+        {
+            MoveAwayFromBall();
+        }
+        else
+        {
+            Vector3 directionTowardTarget = targetPosition - opponentInScene.transform.position;
+            directionTowardTarget = directionTowardTarget.normalized * AIManager.moveForce;
+            opponentInScene.GetComponent<Rigidbody2D>().AddForce(directionTowardTarget);
+        }
     }
 
     public void Update()
@@ -74,18 +109,33 @@ public class AIOpponent
 }
 
 
-public class InFrontOfBall : Condition<AIOpponent>
+public class InFrontOfBall : Node<AIOpponent>
 {
-    private readonly AIOpponent _opponent;
 
-    public InFrontOfBall(Predicate<AIOpponent> predicate)
+
+    public override bool Update(AIOpponent context)
     {
-        this = base.Condition<AIOpponent>(predicate);
-    }
-
-
-    private bool FindBall(AIOpponent opponent)
-    {
-        return opponent.opponentInScene.transform.position.x >= ServicesLocator.ball.transform.position.x + 10;
+        return context.opponentInScene.transform.position.x >= ServicesLocator.ball.transform.position.x;
     }
 }
+
+public class PushBall : Node<AIOpponent>
+{
+    public override bool Update(AIOpponent context)
+    {
+        context.MoveTowardBall();
+        return true;
+    }
+
+}
+
+public class Reposition : Node<AIOpponent>
+{
+    public override bool Update(AIOpponent context)
+    {
+        context.GetOnRightSide();
+        return true;
+    }
+
+}
+
