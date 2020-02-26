@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private FiniteStateMachine<GameController> _gameStateMachine = new FiniteStateMachine<GameController>(this);
+    private FiniteStateMachine<GameController> _gameStateMachine;
     private GameObject button;
 
     // Start is called before the first frame update
@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour
         ServicesLocator.ball = GameObject.FindGameObjectWithTag("Ball");
         ServicesLocator.player = new PlayerScript(GameObject.FindGameObjectWithTag("Player"));
         button = GameObject.Find("Button");
+        _gameStateMachine = new FiniteStateMachine<GameController>(this);
+        _gameStateMachine.TransitionTo<TitleScreen>();
     }
 
     // Update is called once per frame
@@ -34,21 +36,32 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void GameFinish()
+    public void GameCleanUp()
     {
 
+    }
+
+    public void StartButtonClicked(AGPEvent e)
+    {
+        _gameStateMachine.TransitionTo<SoccerGame>();
+    }
+
+    public void GameEnded(AGPEvent e)
+    {
+        _gameStateMachine.TransitionTo<GameOver>();
     }
 
     private abstract class TitleScreen : FiniteStateMachine<GameController>.State
     {
         public override void OnEnter()
         {
-            
+            ServicesLocator.eventManager.Register<GameStart>(ServicesLocator.gameController.StartButtonClicked);
         }
 
         public override void OnExit()
         {
-        ServicesLocator.gameController.HideButton();
+            ServicesLocator.gameController.HideButton();
+            ServicesLocator.eventManager.Unregister<GameStart>(ServicesLocator.gameController.StartButtonClicked);
         }
 
         public override void Update()
@@ -63,17 +76,19 @@ public class GameController : MonoBehaviour
         {
             ServicesLocator.gameController.GameSetup();
             ServicesLocator.scoreController.gameStart = Time.time;
+            ServicesLocator.eventManager.Register<GameFinished>(ServicesLocator.gameController.GameEnded);
         }
 
         public override void OnExit()
         {
             base.OnExit();
+            ServicesLocator.eventManager.Unregister<GameFinished>(ServicesLocator.gameController.GameEnded);
         }
 
         public override void Update()
         {
             ServicesLocator.scoreController.secondsRemaining = (int) Mathf.Floor(Time.time - ServicesLocator.scoreController.gameStart + ScoreController.gameDuration);
-            ServicesLocator.scoreController.UpdateDisplays;
+            ServicesLocator.scoreController.UpdateDisplays();
         }
     }
 
@@ -81,7 +96,7 @@ public class GameController : MonoBehaviour
     {
         public override void OnEnter()
         {
-            ServicesLocator.gameController.GameFinish();
+            ServicesLocator.gameController.GameCleanUp();
         }
 
         public override void OnExit()

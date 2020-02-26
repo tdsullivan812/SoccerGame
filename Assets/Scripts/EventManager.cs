@@ -70,7 +70,7 @@ public abstract class AGPEvent
 
 public class GoalScored : AGPEvent
 {
-    bool didRedTeamScore;
+   public bool didRedTeamScore;
 
     public GoalScored(bool didBlueNetGetHit)
     {
@@ -79,12 +79,17 @@ public class GoalScored : AGPEvent
 
 }
 
-private class TimeOut : AGPEvent
+public class TimeOut : AGPEvent
 {
 
 }
 
-private class GameStart : AGPEvent
+public class GameStart : AGPEvent
+{
+
+}
+
+public class GameFinished : AGPEvent
 {
 
 }

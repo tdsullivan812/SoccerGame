@@ -44,6 +44,6 @@ public class PlayerScript
     void FixedUpdate()
     {
         Controller();
-        ServicesLocator.aiManager.MoveTowardBall();
+        ServicesLocator.aiManager.Update();
     }
 }

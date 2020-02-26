@@ -6,7 +6,7 @@ public class AIManager
 {
     private const int _numberOfOpponents = 2;
     private Vector3[] _opponentStartPositions = new Vector3[_numberOfOpponents];
-    private const float _moveForce = 10;
+    public const float moveForce = 10;
     private static GameObject _opponentPrefab = Resources.Load<GameObject>("Opponent");
     private static AIOpponent[] _listOfOpponents = new AIOpponent[_numberOfOpponents];
 

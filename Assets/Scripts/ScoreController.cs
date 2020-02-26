@@ -44,7 +44,8 @@ public class ScoreController
 
     public void IncrementTeamScore(AGPEvent e)
     {
-        if (didRedTeamScore) redTeamScore++;
+        GoalScored goalScoreEvent = (GoalScored)e;
+        if (goalScoreEvent.didRedTeamScore) redTeamScore++;
         else blueTeamScore++;
     }
 
