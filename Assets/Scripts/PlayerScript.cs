@@ -15,7 +15,7 @@ public class PlayerScript
         _rigidbody = player.GetComponent<Rigidbody2D>();
     }
 
-    void Controller()
+    public void Controller()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -41,9 +41,5 @@ public class PlayerScript
     // Update is called once per frame
 
 
-    void FixedUpdate()
-    {
-        Controller();
-        ServicesLocator.aiManager.Update();
-    }
+   
 }

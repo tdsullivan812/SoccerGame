@@ -1709,15 +1709,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: df4b84d3b0114ec4d8919048d5bb9553, type: 3}
-        m_MethodName: set_name
-        m_Mode: 5
+      - m_Target: {fileID: 734171635}
+        m_MethodName: FireGameStart
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: EventManager.Fire(GameStarted())
+          m_StringArgument: EventManager.Fire(new GameStarted())
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1931745406

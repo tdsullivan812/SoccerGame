@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
         ServicesLocator.gameController = this;
         ServicesLocator.aiManager = new AIManager();
         ServicesLocator.eventManager = new EventManager();
+        ServicesLocator.scoreController = new ScoreController();
         ServicesLocator.ball = GameObject.FindGameObjectWithTag("Ball");
         ServicesLocator.player = new PlayerScript(GameObject.FindGameObjectWithTag("Player"));
         button = GameObject.Find("Button");
@@ -25,6 +26,12 @@ public class GameController : MonoBehaviour
         _gameStateMachine.TransitionTo<TitleScreen>();
     }
 
+    //Fixed Update to increment game physics
+    void FixedUpdate()
+    {
+        ServicesLocator.player.Controller();
+        ServicesLocator.aiManager.Update();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -40,6 +47,12 @@ public class GameController : MonoBehaviour
     public void GameCleanUp()
     {
 
+    }
+
+    public void FireGameStart()
+    {
+        var gameStart = new GameStart();
+        ServicesLocator.eventManager.Fire((AGPEvent)gameStart);
     }
 
     public void StartButtonClicked(AGPEvent e)
