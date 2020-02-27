@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AIManager
 {
-    private const int _numberOfOpponents = 2;
+    private const int _numberOfOpponents = 3;
+    public const float goaliePosition = 30;
     private Vector3[] _opponentStartPositions = new Vector3[_numberOfOpponents];
     public const float moveForce = 10;
     private static GameObject _opponentPrefab = Resources.Load<GameObject>("Opponent");

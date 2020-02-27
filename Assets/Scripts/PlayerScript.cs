@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerScript
 {
-    GameObject player;
+    public GameObject player;
     private const float _moveForce = 10;
     private Rigidbody2D _rigidbody;
 
